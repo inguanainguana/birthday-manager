@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head('Именинник')}"></head>
+<body>
+
+<div th:replace="~{base :: navbar}"></div>
+
+<div class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
+    <div class="row w-100 justify-content-center">
+        <div class="col-md-9 col-lg-7 col-xl-6">
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center mb-4"
+                        th:text="${birthday.id != null} ? 'Редактирование именинника' : 'Новый именинник'">
+                        Новый именинник
+                    </h3>
+
+                    <form th:action="@{/birthdays/save}" th:object="${birthday}" method="post">
+                        <input type="hidden" th:field="*{id}">
+
+                        <div class="mb-3">
+                            <label class="form-label">Имя</label>
+                            <input type="text" th:field="*{name}" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Фамилия</label>
+                            <input type="text" th:field="*{surname}" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Дата рождения</label>
+                            <input type="text" th:field="*{birthDate}" id="birthDateInput"
+                                   class="form-control"
+                                   required
+                                   pattern="\d{2}\.\d{2}\.\d{4}"
+                                   maxlength="10">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Отношение</label>
+                            <select th:field="*{relationship}" class="form-control">
+                                <option th:each="rel : ${relationships}"
+                                        th:value="${rel.code}"
+                                        th:text="${rel.name}"></option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mb-3">Сохранить</button>
+
+                        <div class="text-center">
+                            <a th:href="@{/birthdays}" class="btn btn-link">Назад</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{base :: footer}"></div>
+<div th:replace="~{base :: scripts}"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('birthDateInput');
+        if (!input) return;
+        input.addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 8) value = value.slice(0, 8);
+            let formatted = '';
+            if (value.length > 0) formatted += value.slice(0, 2);
+            if (value.length > 2) formatted += '.' + value.slice(2, 4);
+            if (value.length > 4) formatted += '.' + value.slice(4, 8);
+            e.target.value = formatted;
+        });
+    });
+</script>
+
+</body>
+</html>

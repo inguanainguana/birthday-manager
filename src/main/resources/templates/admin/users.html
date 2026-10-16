@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head('Управление пользователями')}"></head>
+<body>
+
+<div th:replace="~{base :: navbar}"></div>
+
+<main class="container mt-4 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Управление пользователями</h3>
+    </div>
+
+    <div class="table-card">
+        <table class="table table-schedule align-middle">
+            <thead>
+            <tr>
+                <th>Логин</th>
+                <th>Имя</th>
+                <th>Email</th>
+                <th>Роль</th>
+                <th class="text-end">Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u : ${users}">
+                <td th:text="${u.username}" data-label="Логин"></td>
+                <td th:text="${u.name + ' ' + u.surname}" data-label="Имя"></td>
+                <td th:text="${u.email}" data-label="Email"></td>
+                <td data-label="Роль">
+                    <span th:switch="${u.role}">
+                        <span th:case="0">READ_ONLY</span>
+                        <span th:case="1">USER</span>
+                        <span th:case="2">ADMIN</span>
+                    </span>
+                </td>
+                <td class="text-end" data-label="Действие">
+                    <form th:action="@{/admin/users/{id}/role(id=${u.id})}" method="post"
+                          class="d-inline-flex gap-2 align-items-center">
+                        <select name="role" class="form-select form-select-sm" style="width: auto;">
+                            <option value="0" th:selected="${u.role == 0}">READ_ONLY</option>
+                            <option value="1" th:selected="${u.role == 1}">USER</option>
+                            <option value="2" th:selected="${u.role == 2}">ADMIN</option>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-primary">Сохранить</button>
+                    </form>
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(users)}">
+                <td colspan="5" class="text-center text-muted py-4">Пока нет пользователей</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
+
+<div th:replace="~{base :: footer}"></div>
+<div th:replace="~{base :: scripts}"></div>
+
+</body>
+</html>

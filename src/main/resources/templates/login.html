@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head('Вход')}"></head>
+<body>
+<div th:replace="~{base :: authNavbar}"></div>
+
+<div class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
+    <div class="row w-100 justify-content-center">
+        <div class="col-md-9 col-lg-7 col-xl-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="mb-4">Вход</h3>
+                    <form method="post" th:action="@{/login}">
+                        <div class="mb-3">
+                            <label class="form-label">Логин</label>
+                            <input type="text" name="username" class="form-control"
+                                   th:classappend="${param.error} ? 'is-invalid'">
+
+                            <div th:if="${param.error}" class="text-danger small mt-2">
+                                Неверный логин или пароль
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Пароль</label>
+                            <input type="password" name="password" class="form-control"
+                                   th:classappend="${param.error} ? 'is-invalid'">
+
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mb-3">Войти</button>
+
+                        <div class="text-center">
+                            <a th:href="@{/register}" class="btn btn-link">Нет аккаунта? Зарегистрироваться</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{base :: footer}"></div>
+<div th:replace="~{base :: scripts}"></div>
+</body>
+</html>

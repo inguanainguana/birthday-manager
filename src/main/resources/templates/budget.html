@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head('Бюджет')}"></head>
+<body>
+
+<div th:replace="~{base :: navbar}"></div>
+
+<main class="container mt-4 mb-5">
+
+    <div class="mb-4">
+        <h3>Бюджет подарков</h3>
+        <p>Общая сумма и разбивка по именинникам</p>
+    </div>
+
+    <a class="card border-0 shadow-sm rounded-4 text-decoration-none text-reset dashboard-row mb-4">
+        <div class="card-body d-flex align-items-center gap-4 p-4">
+            <div class="dashboard-count bg-light text-primary rounded-4 d-flex align-items-center justify-content-center flex-shrink-0">
+            </div>
+            <div class="flex-grow-1">
+                <div class="mb-1">Общая сумма подарков</div>
+                <div class="mb-0">
+                    <span th:text="${#numbers.formatDecimal(total, 1, 2)}">0.00</span> ₽
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <div class="table-card">
+        <h5 class="mb-3">
+           Разбивка по именинникам
+        </h5>
+
+        <table class="table table-schedule align-middle mb-0" th:if="${!breakdown.isEmpty()}">
+            <thead>
+            <tr>
+                <th>Именинник</th>
+                <th class="text-center">Подарков</th>
+                <th class="text-end">Сумма</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${breakdown}">
+                <td th:text="${row[0] + ' ' + row[1]}" data-label="Именинник"></td>
+                <td class="text-center" th:text="${row[2]}" data-label="Подарков"></td>
+                <td class="text-end"
+                    th:text="${#numbers.formatDecimal(row[3], 1, 2)} + ' ₽'"
+                    data-label="Сумма"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p th:if="${breakdown.isEmpty()}">
+            Пока нет подарков для отображения.
+        </p>
+    </div>
+
+</main>
+
+<div th:replace="~{base :: footer}"></div>
+<div th:replace="~{base :: scripts}"></div>
+
+</body>
+</html>

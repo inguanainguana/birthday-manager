@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head('О приложении')}"></head>
+<body>
+
+<div th:replace="~{base :: navbar}"></div>
+
+<main class="container mt-4 mb-5">
+
+    <div class="mb-4">
+        <h3>О приложении</h3>
+        <p class="text-secondary mb-0">Менеджер дней рождения и списков подарков</p>
+    </div>
+
+    <div class="d-flex flex-column gap-4">
+
+        <div class="table-card">
+            <h5 class="mb-3">О разработчике</h5>
+            <ul class="list-unstyled mb-0 d-flex flex-column gap-2">
+                <li><strong>Студентка:</strong> Комогорова И. Д.</li>
+                <li><strong>Группа:</strong> РИЗ-250938у</li>
+            </ul>
+        </div>
+
+        <div class="table-card">
+            <h5 class="mb-3">О приложении</h5>
+            <p class="mb-0 text-secondary">
+                Приложение предназначено для ведения списка дней рождения близких и коллег,
+                планирования подарков и контроля связанных с ними расходов.
+                Реализовано на Spring Boot с использованием Spring MVC, Spring Data JPA,
+                Spring Security, Thymeleaf и Bootstrap.
+            </p>
+        </div>
+
+        <div class="table-card">
+            <h5 class="mb-3">Технологии</h5>
+            <div class="d-flex flex-wrap gap-2">
+                <span class="tech-badge">Java 17</span>
+                <span class="tech-badge">Spring Boot 3.x</span>
+                <span class="tech-badge">Spring Security</span>
+                <span class="tech-badge">Spring Data JPA</span>
+                <span class="tech-badge">Hibernate</span>
+                <span class="tech-badge">MySQL</span>
+                <span class="tech-badge">Thymeleaf</span>
+                <span class="tech-badge">Bootstrap</span>
+                <span class="tech-badge">Lombok</span>
+                <span class="tech-badge">Maven</span>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{base :: footer}"></div>
+<div th:replace="~{base :: scripts}"></div>
+
+</body>
+</html>

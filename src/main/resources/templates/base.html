@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="${title}">Менеджер дней рождения</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+
+<nav class="navbar navbar-expand-lg navbar-light" th:fragment="navbar">
+    <div class="container">
+
+        <a class="navbar-brand">Менеджер дней рождения</a>
+
+        <button class="navbar-toggler border-0" type="button"
+                data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Меню">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNav">
+
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1 mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="btn btn-link" th:href="@{/cabinet}">Кабинет</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-link" th:href="@{/about}">О приложении</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="btn btn-link" th:href="@{/admin/users}">Пользователи</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <button class="btn btn-link nav-more-btn"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            aria-label="Ещё">
+                        <i class="bi bi-three-dots-vertical fs-5"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3 mt-2">
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2 py-2"
+                               th:href="@{/birthdays}">
+                                Именинники
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2 py-2"
+                               th:href="@{/gifts}">
+                                Подарки
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2 py-2"
+                               th:href="@{/budget}">
+                                Бюджет
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2 py-2 text-danger"
+                               th:href="@{/logout}">
+                                Выйти
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<nav class="navbar navbar-expand-lg navbar-light" th:fragment="authNavbar">
+    <div class="container">
+
+        <a class="navbar-brand">Менеджер дней рождения</a>
+
+        <button class="navbar-toggler border-0" type="button"
+                data-bs-toggle="collapse" data-bs-target="#authNav"
+                aria-controls="authNav" aria-expanded="false" aria-label="Меню">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="authNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-2">
+                <li class="nav-item">
+                    <a class="btn btn-link" th:href="@{/login}">Войти</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary btn-pill" th:href="@{/register}">Регистрация</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<footer class="text-center text-muted py-3 mt-5" th:fragment="footer">
+    © 2026 Менеджер дней рождения
+</footer>
+
+<th:block th:fragment="scripts">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</th:block>
+
+</body>
+</html>

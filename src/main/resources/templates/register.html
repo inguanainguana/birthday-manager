@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head('Регистрация')}"></head>
+<body>
+<div th:replace="~{base :: authNavbar}"></div>
+
+<div class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
+    <div class="row w-100 justify-content-center">
+        <div class="col-md-9 col-lg-7 col-xl-6">
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="mb-4">Регистрация</h3>
+
+                    <form method="post" th:action="@{/register/save}" th:object="${user}">
+
+                        <div class="mb-3">
+                            <label class="form-label">Имя</label>
+                            <input type="text" th:field="*{name}" class="form-control"
+                                   th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'">
+                            <p th:errors="*{name}" class="text-danger small mt-2 mb-0"></p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Фамилия</label>
+                            <input type="text" th:field="*{surname}" class="form-control"
+                                   th:classappend="${#fields.hasErrors('surname')} ? 'is-invalid'">
+                            <p th:errors="*{surname}" class="text-danger small mt-2 mb-0"></p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Логин</label>
+                            <input type="text" th:field="*{username}" class="form-control"
+                                   th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'">
+                            <p th:errors="*{username}" class="text-danger small mt-2 mb-0"></p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Почта</label>
+                            <input type="email" th:field="*{email}" class="form-control"
+                                   th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'">
+                            <p th:errors="*{email}" class="text-danger small mt-2 mb-0"></p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Пароль</label>
+                            <input type="password" th:field="*{password}" class="form-control"
+                                   th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'">
+                            <p th:errors="*{password}" class="text-danger small mt-2 mb-0"></p>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Повторите пароль</label>
+                            <input type="password" th:field="*{confirmPassword}" class="form-control"
+                                   th:classappend="${#fields.hasErrors('confirmPassword')} ? 'is-invalid'">
+                            <p th:errors="*{confirmPassword}" class="text-danger small mt-2 mb-0"></p>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mb-3">Зарегистрироваться</button>
+
+                        <div class="text-center">
+                            <a th:href="@{/login}" class="btn btn-link">Уже есть аккаунт? Войти</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{base :: footer}"></div>
+<div th:replace="~{base :: scripts}"></div>
+
+</body>
+</html>

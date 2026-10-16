@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head('Список именинников')}"></head>
+<body>
+
+<div th:replace="~{base :: navbar}"></div>
+
+<main class="container mt-4 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h3>Список именинников</h3>
+        <a th:href="@{/birthdays/add}" class="btn btn-primary btn-pill">
+          Добавить
+        </a>
+    </div>
+
+    <div class="table-card">
+        <table class="table table-schedule align-middle">
+            <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Дата рождения</th>
+                <th>Отношение</th>
+                <th class="text-end">Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="b : ${birthdays}">
+                <td th:text="${b.name}" data-label="Имя"></td>
+                <td th:text="${b.surname}" data-label="Фамилия"></td>
+                <td th:text="${#temporals.format(b.birthDate, 'dd.MM.yyyy')}"
+                    data-label="Дата рождения"></td>
+                <td data-label="Отношение">
+                    <span th:switch="${b.relationship}">
+                        <span th:case="0">Приятель</span>
+                        <span th:case="1">Друг</span>
+                        <span th:case="2">Коллега</span>
+                        <span th:case="3">Родственник</span>
+                        <span th:case="*">Другое</span>
+                    </span>
+                </td>
+                <td class="text-end" data-label="Действия">
+                    <a th:href="@{/birthdays/edit/{id}(id=${b.id})}"
+                       class="btn-icon edit"
+                       title="Изменить">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <button type="button"
+                            class="btn-icon delete"
+                            title="Удалить"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            th:attr="data-id=${b.id}, data-name=${b.name + ' ' + b.surname}">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(birthdays)}">
+                <td colspan="5" class="text-center text-muted py-4">Пока нет записей</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">Удалить запись?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body text-secondary">
+                Вы действительно хотите удалить запись: <strong id="deleteName"></strong>?
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-link text-secondary text-decoration-none"
+                        data-bs-dismiss="modal">Отмена</button>
+                <a id="deleteLink" href="#" class="btn btn-primary btn-pill">Удалить</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{base :: footer}"></div>
+<div th:replace="~{base :: scripts}"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteModal = document.getElementById('deleteModal');
+        if (deleteModal) {
+            deleteModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const id = button.getAttribute('data-id');
+                const name = button.getAttribute('data-name');
+                document.getElementById('deleteName').textContent = name;
+                document.getElementById('deleteLink').href = '/birthdays/delete/' + id;
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

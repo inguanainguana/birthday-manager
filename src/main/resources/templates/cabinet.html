@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head('Кабинет')}"></head>
+<body>
+
+<div th:replace="~{base :: navbar}"></div>
+
+<main class="container py-5">
+
+    <div class="mb-5">
+        <h1 class="mb-2">
+            Добро пожаловать, <span th:text="${user.name}">Имя</span>!
+        </h1>
+        <p class="text-secondary mb-0">
+            Здесь вы можете вести список дней рождения и планировать подарки.
+        </p>
+    </div>
+
+    <div class="d-flex flex-column gap-3">
+
+        <a th:href="@{/birthdays}"
+           class="card border-0 shadow-sm rounded-4 text-decoration-none text-reset dashboard-row">
+            <div class="card-body d-flex align-items-center gap-4 p-4">
+                <div class="dashboard-count bg-light text-primary rounded-4 d-flex align-items-center justify-content-center fw-bold flex-shrink-0">
+                    <span th:text="${birthdayCount}">0</span>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="mb-1">Именинники</div>
+                    <div class="text-secondary small">Люди, чьи даты вы отслеживаете</div>
+                </div>
+                <i class="bi bi-arrow-right fs-4 text-secondary dashboard-arrow"></i>
+            </div>
+        </a>
+
+        <a th:href="@{/gifts}"
+           class="card border-0 shadow-sm rounded-4 text-decoration-none text-reset dashboard-row">
+            <div class="card-body d-flex align-items-center gap-4 p-4">
+                <div class="dashboard-count bg-light text-primary rounded-4 d-flex align-items-center justify-content-center fw-bold flex-shrink-0">
+                    <span th:text="${giftCount}">0</span>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="mb-1">Подарки</div>
+                    <div class="text-secondary small">Идеи и планы подарков</div>
+                </div>
+                <i class="bi bi-arrow-right fs-4 text-secondary dashboard-arrow"></i>
+            </div>
+        </a>
+
+        <a th:href="@{/budget}"
+           class="card border-0 shadow-sm rounded-4 text-decoration-none text-reset dashboard-row">
+            <div class="card-body d-flex align-items-center gap-4 p-4">
+                <div class="dashboard-count bg-light text-primary rounded-4 d-flex align-items-center justify-content-center flex-shrink-0">
+                    <i class="bi bi-wallet2 fs-3"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <div class=" mb-1">Бюджет</div>
+                    <div class="text-secondary small">Общая стоимость подарков</div>
+                </div>
+                <i class="bi bi-arrow-right fs-4 text-secondary dashboard-arrow"></i>
+            </div>
+        </a>
+
+    </div>
+
+</main>
+
+<div th:replace="~{base :: footer}"></div>
+<div th:replace="~{base :: scripts}"></div>
+
+</body>
+</html>

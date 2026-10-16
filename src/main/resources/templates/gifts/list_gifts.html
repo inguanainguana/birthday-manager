@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head('Подарки')}"></head>
+<body>
+
+<div th:replace="~{base :: navbar}"></div>
+
+<main class="container mt-4 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h3>Список подарков</h3>
+        <a th:href="@{/gifts/add}" class="btn btn-primary btn-pill">
+          Добавить
+        </a>
+    </div>
+
+    <div class="table-card">
+        <table class="table table-schedule align-middle">
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Стоимость</th>
+                <th>Кому</th>
+                <th class="text-end">Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="g : ${gifts}">
+                <td th:text="${g.title}" data-label="Название"></td>
+
+                <td class="description-cell" data-label="Описание">
+                    <button th:if="${g.description != null and !g.description.isEmpty()}"
+                            class="btn-read-more"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            th:attr="data-bs-target='#desc-' + ${g.id}"
+                            aria-expanded="false">
+                        Читать далее
+                    </button>
+
+                    <div class="collapse mt-2" th:id="'desc-' + ${g.id}">
+                        <div class="small text-muted" th:text="${g.description}"></div>
+                    </div>
+                </td>
+
+                <td th:text="${#numbers.formatDecimal(g.price, 1, 2)} + ' ₽'"
+                    data-label="Стоимость"></td>
+                <td th:text="${g.birthday.name + ' ' + g.birthday.surname}"
+                    data-label="Кому"></td>
+
+                <td class="text-end" data-label="Действия">
+                    <a th:href="@{/gifts/edit/{id}(id=${g.id})}"
+                       class="btn-icon edit"
+                       title="Изменить">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <button type="button"
+                            class="btn-icon delete"
+                            title="Удалить"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            th:attr="data-id=${g.id}, data-name=${g.title}">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(gifts)}">
+                <td colspan="5" class="text-center text-muted py-4"
+                    data-label="">Пока нет подарков
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">Удалить подарок?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body text-secondary">
+                Вы действительно хотите удалить подарок: <strong id="deleteName"></strong>?
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-link text-secondary text-decoration-none"
+                        data-bs-dismiss="modal">Отмена</button>
+                <a id="deleteLink" href="#" class="btn btn-primary btn-pill">Удалить</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{base :: footer}"></div>
+<div th:replace="~{base :: scripts}"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteModal = document.getElementById('deleteModal');
+        if (deleteModal) {
+            deleteModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const id = button.getAttribute('data-id');
+                const name = button.getAttribute('data-name');
+                document.getElementById('deleteName').textContent = name;
+                document.getElementById('deleteLink').href = '/gifts/delete/' + id;
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
